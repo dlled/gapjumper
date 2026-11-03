@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    # gapjumper only runs on macOS, and install.sh targets the Bash 3.2 that
+    # ships with it, so the tests run on a macOS runner.
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Install Lua and ShellCheck
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+          HOMEBREW_NO_INSTALL_CLEANUP: "1"
+        run: brew install lua shellcheck
+
+      - name: Show tool versions
+        run: |
+          sw_vers
+          /bin/bash --version | head -1
+          lua -v
+          shellcheck --version
+
+      # Runs the Lua tests, the install/uninstall tests and ShellCheck.
+      - name: Run tests
+        run: ./test.sh

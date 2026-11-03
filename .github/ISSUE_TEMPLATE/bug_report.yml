@@ -1,0 +1,62 @@
+name: Bug report
+description: The cursor does not jump, jumps to the wrong place, or something else is broken.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please fill in as much as you can.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Move the cursor to the right edge of the laptop screen
+        2. Keep moving right
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: e.g. macOS 15.5 (Apple silicon)
+    validations:
+      required: true
+  - type: input
+    id: hammerspoon
+    attributes:
+      label: Hammerspoon version
+      placeholder: e.g. 1.1.1
+  - type: textarea
+    id: layout
+    attributes:
+      label: Display layout
+      description: |
+        How many displays, their resolutions and scaling, and how they are arranged
+        in System Settings > Displays > Arrange. A screenshot of the arrangement helps a lot.
+      placeholder: |
+        - MacBook Pro built-in, 1512x982, left
+        - External 27", 2560x1440, right, aligned to the top
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of ./doctor.sh
+      description: Run `./doctor.sh` from the repo folder and paste the full output.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Hammerspoon console errors, other tools that move the cursor, etc.
